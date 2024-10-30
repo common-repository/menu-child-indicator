@@ -1,0 +1,39 @@
+<?php
+/**
+ * Plugin Name: Menu Child Indicator
+ * Plugin URI: http://github.com/macbookandrew/Menu-Child-Indicator
+ * Description: Adds the css class .has-children to menu items that have a submenu to allow css styling
+ * Version: 1.1.4
+ * Author: Andrew Minion
+ * Author URI: http://andrewrminion.com/
+ * License: GPL2
+ *
+ * @package menu-child-indicator
+ */
+
+/**
+ * Ensure jQuery is enqueued.
+ *
+ * @return void
+ */
+function armd_scripts_method() {
+	wp_enqueue_script( 'jquery' );
+}
+add_action( 'wp_enqueue_scripts', 'armd_scripts_method' );
+
+
+/**
+ * Enqueue our JS.
+ *
+ * @return void
+ */
+function armd_add_indicator() {
+	wp_add_inline_script(
+		'jquery',
+		'jQuery(document).ready(function($) {
+			$(\'.menu li:has(".children")\').addClass(\'has-children\');
+		});',
+		'after'
+	);
+}
+add_action( 'wp_head', 'armd_add_indicator' );
